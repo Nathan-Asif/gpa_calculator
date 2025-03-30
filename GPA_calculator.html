@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GPA & CGPA Calculator</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div class="container py-5">
+    <h2 class="text-center mb-5">🎓 GPA & CGPA Calculator</h2>
+
+    <!-- GPA Calculator -->
+    <div class="card mb-4">
+      <div class="card-header bg-primary text-white">GPA Calculator</div>
+      <div class="card-body">
+        <div id="gpa-subjects">
+          <div class="row g-3 mb-2 subject-row">
+            <div class="col-md-6">
+              <input type="text" class="form-control subject-name" placeholder="Subject Name">
+            </div>
+            <div class="col-md-3">
+              <input type="number" step="0.01" class="form-control subject-gp" placeholder="Grade Points (GP)">
+            </div>
+            <div class="col-md-3">
+              <input type="number" class="form-control subject-cr" placeholder="Credit Hours">
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-outline-secondary mb-3" onclick="addSubjectRow()">+ Add Another Subject</button>
+        <div class="mb-3">
+          <button class="btn btn-success" onclick="calculateGPA()">Calculate GPA</button>
+        </div>
+        <div id="gpa-result" class="alert alert-info d-none"></div>
+      </div>
+    </div>
+
+    <!-- CGPA Calculator -->
+    <div class="card">
+      <div class="card-header bg-dark text-white">CGPA Calculator</div>
+      <div class="card-body">
+        <div id="cgpa-semesters">
+          <div class="row g-3 mb-2 semester-row">
+            <div class="col-md-6">
+              <input type="number" step="0.01" class="form-control semester-gpa" placeholder="Semester GPA">
+            </div>
+            <div class="col-md-6">
+              <input type="number" class="form-control semester-cr" placeholder="Credit Hours">
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-outline-secondary mb-3" onclick="addSemesterRow()">+ Add Another Semester</button>
+        <div class="mb-3">
+          <button class="btn btn-primary" onclick="calculateCGPA()">Calculate CGPA</button>
+        </div>
+        <div id="cgpa-result" class="alert alert-info d-none"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function addSubjectRow() {
+      const container = document.getElementById('gpa-subjects');
+      const row = document.querySelector('.subject-row').cloneNode(true);
+      row.querySelectorAll('input').forEach(input => input.value = '');
+      container.appendChild(row);
+    }
+
+    function calculateGPA() {
+      let totalGP = 0, totalCr = 0;
+      document.querySelectorAll('.subject-row').forEach(row => {
+        const gp = parseFloat(row.querySelector('.subject-gp').value) || 0;
+        const cr = parseFloat(row.querySelector('.subject-cr').value) || 0;
+        totalGP += gp;
+        totalCr += cr;
+      });
+      const gpa = (totalCr > 0) ? (totalGP / totalCr).toFixed(2) : 0;
+      const result = document.getElementById('gpa-result');
+      result.classList.remove('d-none');
+      result.innerText = `Your GPA is: ${gpa}`;
+    }
+
+    function addSemesterRow() {
+      const container = document.getElementById('cgpa-semesters');
+      const row = document.querySelector('.semester-row').cloneNode(true);
+      row.querySelectorAll('input').forEach(input => input.value = '');
+      container.appendChild(row);
+    }
+
+    function calculateCGPA() {
+      let totalGP = 0, totalCr = 0;
+      document.querySelectorAll('.semester-row').forEach(row => {
+        const gpa = parseFloat(row.querySelector('.semester-gpa').value) || 0;
+        const cr = parseFloat(row.querySelector('.semester-cr').value) || 0;
+        totalGP += gpa * cr;
+        totalCr += cr;
+      });
+      const cgpa = (totalCr > 0) ? (totalGP / totalCr).toFixed(2) : 0;
+      const result = document.getElementById('cgpa-result');
+      result.classList.remove('d-none');
+      result.innerText = `Your CGPA is: ${cgpa}`;
+    }
+  </script>
+</body>
+</html>
