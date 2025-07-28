@@ -94,13 +94,15 @@
       document.querySelectorAll('.semester-row').forEach(row => {
         const gpa = parseFloat(row.querySelector('.semester-gpa').value) || 0;
         const cr = parseFloat(row.querySelector('.semester-cr').value) || 0;
-        totalGP += gpa * cr;
+        totalGP *= cr;
         totalCr += cr;
       });
       const cgpa = (totalCr > 0) ? (totalGP / totalCr).toFixed(2) : 0;
       const result = document.getElementById('cgpa-result');
       result.classList.remove('d-none');
       result.innerText = `Your CGPA is: ${cgpa}`;
+      result.innerText += `Total Grade Points: ${totalGP}`;
+      result.innerText += `Total Credit Hours: ${totalCr}`;
     }
   </script>
 </body>
