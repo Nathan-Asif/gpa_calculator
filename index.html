@@ -71,13 +71,15 @@
       document.querySelectorAll('.subject-row').forEach(row => {
         const gp = parseFloat(row.querySelector('.subject-gp').value) || 0;
         const cr = parseFloat(row.querySelector('.subject-cr').value) || 0;
-        totalGP += gp;
+        totalGP *= cr;
         totalCr += cr;
       });
       const gpa = (totalCr > 0) ? (totalGP / totalCr).toFixed(2) : 0;
       const result = document.getElementById('gpa-result');
       result.classList.remove('d-none');
       result.innerText = `Your GPA is: ${gpa}`;
+      result.innerText += ` | Total Grade Points: ${totalGP}`;
+      result.innerText += ` | Total Credit Hours: ${totalCr}`;
     }
 
     function addSemesterRow() {
